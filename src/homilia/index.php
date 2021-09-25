@@ -1,11 +1,16 @@
 <?php
-//2021.04.25.00
+//2021.04.25.01
 //Protocol Corporation Ltda.
 //https://github.com/ProtocolLive/SimpleTelegramBot
 
 function Command_homilia(TblCmd $Webhook):void{
   DebugTrace();
-  $Webhook->ReplyMsg(file_get_contents(__DIR__ . '/homilia.txt'));
+  $msg = file_get_contents(__DIR__ . '/homilia.txt');
+  $msg = str_replace('##NAME##', $Webhook->User->Name, $msg);
+  $msg = explode('##BREAK##', $msg);
+  foreach($msg as $temp):
+    $Webhook->ReplyMsg($temp);
+  endforeach;
   LogEvent('homilia');
 }
 
